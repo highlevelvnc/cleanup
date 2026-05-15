@@ -1,31 +1,67 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { getGsap, prefersReducedMotion, refreshTriggers } from "@/lib/gsapClient";
 
 const steps = [
-  {
-    n: 1,
-    title: "Contacto via WhatsApp",
-    text: "Mande uma mensagem com fotos ou descrição do que precisa. Simples e rápido.",
-  },
-  {
-    n: 2,
-    title: "Orçamento imediato",
-    text: "Recebe uma proposta clara e transparente, sem compromisso, no mesmo dia.",
-  },
-  {
-    n: 3,
-    title: "Agendamento à medida",
-    text: "Marcamos o serviço ao seu ritmo, com horário que se adapta à sua rotina.",
-  },
-  {
-    n: 4,
-    title: "Limpeza executada",
-    text: "Equipa profissional a entregar resultados impecáveis, com garantia de qualidade.",
-  },
+  { n: 1, title: "Contacto via WhatsApp", text: "Mande uma mensagem com fotos ou descrição do que precisa. Simples e rápido." },
+  { n: 2, title: "Orçamento imediato", text: "Recebe uma proposta clara e transparente, sem compromisso, no mesmo dia." },
+  { n: 3, title: "Agendamento à medida", text: "Marcamos o serviço ao seu ritmo, com horário que se adapta à sua rotina." },
+  { n: 4, title: "Limpeza executada", text: "Equipa profissional a entregar resultados impecáveis, com garantia de qualidade." },
 ];
 
 export default function Process() {
+  const root = useRef<HTMLElement>(null);
+  const list = useRef<HTMLOListElement>(null);
+  const line = useRef<HTMLSpanElement>(null);
+  const img = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = getGsap();
+    if (!ctx || prefersReducedMotion() || !root.current) return;
+    const { gsap } = ctx;
+
+    const scope = gsap.context(() => {
+      // Linha vertical desenha-se com scrub conforme se entra na lista
+      if (line.current && list.current) {
+        gsap.fromTo(
+          line.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: list.current,
+              start: "top 75%",
+              end: "bottom 75%",
+              scrub: 0.6,
+            },
+          }
+        );
+      }
+
+      // Imagem com leve parallax
+      if (img.current) {
+        gsap.to(img.current, {
+          yPercent: -6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current!,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.8,
+          },
+        });
+      }
+    }, root);
+
+    refreshTriggers();
+    return () => scope.revert();
+  }, []);
+
   return (
-    <section id="processo" className="relative overflow-hidden bg-white py-24 md:py-32">
+    <section ref={root} id="processo" className="relative overflow-hidden bg-white py-24 md:py-32">
       <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-14 px-5 md:grid-cols-2 md:gap-20 md:px-10">
         <div>
           <span data-reveal className="text-xs font-semibold uppercase tracking-[0.2em] text-mint">
@@ -39,23 +75,20 @@ export default function Process() {
             4 passos simples até ao seu espaço impecável
           </h2>
 
-          <ol className="mt-10 space-y-8">
+          <ol ref={list} className="relative mt-10 space-y-8">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute left-6 top-6 bottom-6 w-px origin-top -translate-x-1/2 bg-gradient-to-b from-sky via-mint to-mint/0"
+              ref={line}
+            />
             {steps.map((s, i) => (
-              <li
-                key={s.n}
-                data-reveal="left"
-                data-delay={i * 90}
-                className="group flex gap-5"
-              >
-                <span className="relative flex-shrink-0">
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-gradient text-base font-bold text-white shadow-soft">
+              <li key={s.n} data-reveal="left" data-delay={i * 90} className="group relative flex gap-5">
+                <span className="relative z-10 flex-shrink-0">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-brand-gradient text-base font-bold text-white shadow-soft ring-4 ring-white">
                     {s.n}
                   </span>
-                  {i < steps.length - 1 && (
-                    <span className="absolute left-1/2 top-12 h-12 w-px -translate-x-1/2 bg-gradient-to-b from-sky/40 to-transparent" />
-                  )}
                 </span>
-                <div className="pt-1">
+                <div className="pt-1.5">
                   <h3 className="font-display text-lg font-semibold text-deep">{s.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{s.text}</p>
                 </div>
@@ -64,7 +97,7 @@ export default function Process() {
           </ol>
         </div>
 
-        <div data-reveal="right" className="relative">
+        <div ref={img} data-reveal="right" className="relative will-change-transform">
           <div className="absolute inset-0 -z-10 translate-x-6 translate-y-6 rounded-[2rem] bg-brand-gradient opacity-25 blur-2xl" />
           <div className="overflow-hidden rounded-[2rem] border-[6px] border-white shadow-lift">
             <Image

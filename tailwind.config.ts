@@ -61,10 +61,20 @@ const config: Config = {
           "0%": { transform: "scale(1)", opacity: "0.6" },
           "100%": { transform: "scale(1.6)", opacity: "0" },
         },
+        "gradient-drift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        sheen: {
+          "0%": { transform: "translateX(-120%)" },
+          "100%": { transform: "translateX(120%)" },
+        },
       },
       animation: {
         float: "float 6s ease-in-out infinite",
         "pulse-ring": "pulse-ring 2.2s cubic-bezier(0.4,0,0.6,1) infinite",
+        "gradient-drift": "gradient-drift 14s ease-in-out infinite",
+        sheen: "sheen 2.4s cubic-bezier(0.16,1,0.3,1)",
       },
     },
   },

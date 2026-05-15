@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { COMPANY } from "@/lib/constants";
+import Counter from "@/components/Counter";
 
-const stats = [
-  { v: "+200", l: "Clientes satisfeitos" },
-  { v: "+5 anos", l: "De experiência" },
-  { v: "100%", l: "Garantia de qualidade" },
+const stats: { value: React.ReactNode; l: string }[] = [
+  { value: <><Counter to={200} prefix="+" /></>, l: "Clientes satisfeitos" },
+  { value: <><Counter to={5} prefix="+" /> anos</>, l: "De experiência" },
+  { value: <><Counter to={100} suffix="%" /></>, l: "Garantia de qualidade" },
 ];
 
 export default function About() {
@@ -49,12 +50,12 @@ export default function About() {
           <dl className="mt-10 grid grid-cols-3 gap-4">
             {stats.map((s, i) => (
               <div
-                key={s.l}
+                key={i}
                 data-reveal
                 data-delay={i * 90}
                 className="rounded-2xl border border-ink-100 bg-gradient-to-b from-white to-sky-50/40 p-4 text-center"
               >
-                <dt className="font-display text-2xl font-bold text-deep md:text-3xl">{s.v}</dt>
+                <dt className="font-display text-2xl font-bold text-deep md:text-3xl">{s.value}</dt>
                 <dd className="mt-1 text-xs text-ink-muted">{s.l}</dd>
               </div>
             ))}

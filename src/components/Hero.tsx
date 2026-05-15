@@ -3,37 +3,114 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { WHATSAPP_URL, COMPANY } from "@/lib/constants";
+import {
+  getGsap,
+  isCoarsePointer,
+  prefersReducedMotion,
+  refreshTriggers,
+} from "@/lib/gsapClient";
 
 export default function Hero() {
-  const imgRef = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLElement>(null);
+  const imgWrap = useRef<HTMLDivElement>(null);
   const blob1 = useRef<HTMLDivElement>(null);
   const blob2 = useRef<HTMLDivElement>(null);
+  const cta = useRef<HTMLAnchorElement>(null);
+  const cardA = useRef<HTMLDivElement>(null);
+  const cardB = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    let raf = 0;
-    const onScroll = () => {
-      raf || (raf = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (imgRef.current) imgRef.current.style.transform = `translate3d(0, ${y * -0.04}px, 0)`;
-        if (blob1.current) blob1.current.style.transform = `translate3d(0, ${y * 0.08}px, 0)`;
-        if (blob2.current) blob2.current.style.transform = `translate3d(0, ${y * -0.06}px, 0)`;
-        raf = 0;
-      }));
+    const ctx = getGsap();
+    if (!ctx || prefersReducedMotion() || !root.current) return;
+    const { gsap } = ctx;
+
+    const scope = gsap.context(() => {
+      // Parallax discreto — usa scrub para ligar ao scroll, não ao tempo
+      if (imgWrap.current) {
+        gsap.to(imgWrap.current, {
+          yPercent: -8,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current!,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        });
+      }
+      if (blob1.current) {
+        gsap.to(blob1.current, {
+          yPercent: 22,
+          ease: "none",
+          scrollTrigger: { trigger: root.current!, start: "top top", end: "bottom top", scrub: 0.8 },
+        });
+      }
+      if (blob2.current) {
+        gsap.to(blob2.current, {
+          yPercent: -18,
+          ease: "none",
+          scrollTrigger: { trigger: root.current!, start: "top top", end: "bottom top", scrub: 0.8 },
+        });
+      }
+
+      // Floating cards — entrada subtil em loop (já tem CSS animate-float, aqui adicionamos rotação ténue)
+      if (cardA.current) {
+        gsap.to(cardA.current, {
+          y: "-=6",
+          rotate: -1.5,
+          duration: 4.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+      if (cardB.current) {
+        gsap.to(cardB.current, {
+          y: "+=8",
+          rotate: 1.2,
+          duration: 5.2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+    }, root);
+
+    refreshTriggers();
+    return () => scope.revert();
+  }, []);
+
+  // Magnetic CTA — apenas em pointer fino (desktop), sem custo em mobile
+  useEffect(() => {
+    if (isCoarsePointer() || prefersReducedMotion() || !cta.current) return;
+    const ctx = getGsap();
+    if (!ctx) return;
+    const { gsap } = ctx;
+    const el = cta.current;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width / 2);
+      const y = e.clientY - (r.top + r.height / 2);
+      gsap.to(el, { x: x * 0.18, y: y * 0.22, duration: 0.4, ease: "power3.out" });
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const reset = () => gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.5)" });
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", reset);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", reset);
+    };
   }, []);
 
   return (
     <section
+      ref={root}
       id="top"
       className="relative isolate overflow-hidden bg-gradient-to-b from-sky-50/60 via-white to-white pt-28 md:pt-32"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div ref={blob1} className="absolute -left-24 top-24 h-[420px] w-[420px] rounded-full bg-sky/25 blur-[110px]" />
-        <div ref={blob2} className="absolute -right-24 top-1/3 h-[360px] w-[360px] rounded-full bg-mint/25 blur-[100px]" />
+        <div ref={blob1} className="absolute -left-24 top-24 h-[420px] w-[420px] rounded-full bg-sky/25 blur-[110px] will-change-transform" />
+        <div ref={blob2} className="absolute -right-24 top-1/3 h-[360px] w-[360px] rounded-full bg-mint/25 blur-[100px] will-change-transform" />
       </div>
 
       <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-12 px-5 pb-20 md:grid-cols-2 md:gap-16 md:px-10 md:pb-28">
@@ -68,15 +145,17 @@ export default function Hero() {
 
           <div data-reveal data-delay="240" className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
+              ref={cta}
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-brand-gradient px-7 py-4 text-sm font-semibold text-white shadow-soft transition-transform hover:scale-[1.02] hover:shadow-lift active:scale-95"
+              className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-brand-gradient px-7 py-4 text-sm font-semibold text-white shadow-soft transition-shadow hover:shadow-lift active:scale-95 will-change-transform"
             >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
+              <span aria-hidden className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              <svg viewBox="0 0 24 24" className="relative h-5 w-5" fill="currentColor" aria-hidden>
                 <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.6.1-.2 0-.3 0-.5l-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1.1 1-1.1 2.5 1.1 2.9 1.3 3.1c.2.2 2.2 3.4 5.4 4.8 2 .9 2.8.9 3.8.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4 0-.1-.2-.2-.5-.4zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z" />
               </svg>
-              Pedir orçamento pelo WhatsApp
+              <span className="relative">Pedir orçamento pelo WhatsApp</span>
             </a>
             <a
               href="#servicos"
@@ -86,7 +165,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <div data-reveal data-delay="320" className="mt-10 flex items-center gap-6 text-xs text-ink-muted">
+          <div data-reveal data-delay="320" className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-ink-muted">
             <div className="flex items-center gap-2">
               <span className="grid h-8 w-8 place-items-center rounded-full bg-mint/15 text-mint">
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -99,7 +178,7 @@ export default function Hero() {
               </span>
               <span>Resposta &lt; 2h</span>
             </div>
-            <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex items-center gap-2">
               <span className="grid h-8 w-8 place-items-center rounded-full bg-deep/10 text-deep">
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
               </span>
@@ -108,7 +187,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div ref={imgRef} data-reveal="right" className="relative">
+        <div ref={imgWrap} data-reveal="right" className="relative will-change-transform">
           <div className="relative overflow-hidden rounded-3xl border-[6px] border-white shadow-lift">
             <Image
               src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80"
@@ -120,7 +199,7 @@ export default function Hero() {
             />
           </div>
 
-          <div className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-lift md:block">
+          <div ref={cardA} className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-lift md:block will-change-transform">
             <div className="flex items-center gap-3">
               <div className="grid h-12 w-12 place-items-center rounded-full bg-mint/15 text-mint">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="10"/></svg>
@@ -132,7 +211,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="absolute -top-6 -right-6 hidden animate-float rounded-2xl bg-white p-4 shadow-lift sm:block">
+          <div ref={cardB} className="absolute -top-6 -right-6 hidden rounded-2xl bg-white p-4 shadow-lift sm:block will-change-transform">
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-sky/15 text-sky">
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>

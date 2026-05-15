@@ -1,4 +1,5 @@
 import { WHATSAPP_URL } from "@/lib/constants";
+import ServiceCard from "@/components/ServiceCard";
 
 const services = [
   {
@@ -88,31 +89,15 @@ export default function Services() {
 
         <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <article
+            <ServiceCard
               key={s.title}
-              data-reveal
-              data-delay={i * 70}
-              className={`group relative overflow-hidden rounded-2xl border border-white bg-gradient-to-br ${s.tone} p-7 shadow-soft transition-all hover:-translate-y-1.5 hover:shadow-lift`}
-            >
-              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-white text-sky shadow-soft transition-colors group-hover:bg-brand-gradient group-hover:text-white">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-7 w-7">
-                  {s.icon}
-                </svg>
-              </span>
-              <h3 className="mt-5 font-display text-xl font-semibold text-deep">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">{s.text}</p>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-sky transition-all group-hover:gap-2.5"
-              >
-                Pedir orçamento
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.4">
-                  <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </article>
+              index={i}
+              title={s.title}
+              text={s.text}
+              tone={s.tone}
+              icon={s.icon}
+              href={WHATSAPP_URL}
+            />
           ))}
         </div>
       </div>
