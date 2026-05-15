@@ -9,10 +9,11 @@ type Props = {
   text: string;
   tone: string;
   icon: React.ReactNode;
+  bullets?: string[];
   href: string;
 };
 
-export default function ServiceCard({ index, title, text, tone, icon, href }: Props) {
+export default function ServiceCard({ index, title, text, tone, icon, bullets, href }: Props) {
   const card = useRef<HTMLElement>(null);
   const sheen = useRef<HTMLSpanElement>(null);
 
@@ -60,6 +61,18 @@ export default function ServiceCard({ index, title, text, tone, icon, href }: Pr
       </span>
       <h3 className="relative mt-5 font-display text-xl font-semibold text-deep">{title}</h3>
       <p className="relative mt-2 text-sm leading-relaxed text-ink-soft">{text}</p>
+      {bullets && (
+        <ul className="relative mt-4 space-y-1.5">
+          {bullets.map((b) => (
+            <li key={b} className="flex items-start gap-2 text-xs text-ink-soft">
+              <svg className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      )}
       <a
         href={href}
         target="_blank"

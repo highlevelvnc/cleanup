@@ -13,10 +13,11 @@ export default function CTA() {
         </div>
 
         <h2 className="relative font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
-          Precisa de uma limpeza profissional?
+          A sua casa pode estar impecável já amanhã
         </h2>
         <p className="relative mx-auto mt-4 max-w-xl text-white/90">
-          Receba um orçamento gratuito em minutos. Sem compromisso, sem stress.
+          Mande uma mensagem agora — orçamento em <strong>5 minutos</strong>, sem
+          compromisso. Resposta normalmente em menos de 2 horas.
         </p>
 
         <a

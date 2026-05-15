@@ -5,10 +5,10 @@ import { useEffect, useRef } from "react";
 import { getGsap, prefersReducedMotion, refreshTriggers } from "@/lib/gsapClient";
 
 const steps = [
-  { n: 1, title: "Contacto via WhatsApp", text: "Mande uma mensagem com fotos ou descrição do que precisa. Simples e rápido." },
-  { n: 2, title: "Orçamento imediato", text: "Recebe uma proposta clara e transparente, sem compromisso, no mesmo dia." },
-  { n: 3, title: "Agendamento à medida", text: "Marcamos o serviço ao seu ritmo, com horário que se adapta à sua rotina." },
-  { n: 4, title: "Limpeza executada", text: "Equipa profissional a entregar resultados impecáveis, com garantia de qualidade." },
+  { n: 1, title: "Diga-nos o que precisa", text: "Uma mensagem no WhatsApp com 2 ou 3 fotos chega. Se preferir falar, ligamos." },
+  { n: 2, title: "Recebe o orçamento", text: "Preço fechado em poucas horas. Sem letras pequenas, sem custos escondidos." },
+  { n: 3, title: "Marcamos quando der jeito", text: "Manhã, tarde, fim-de-semana. Adaptamo-nos à sua agenda e ao seu espaço." },
+  { n: 4, title: "Tratamos de tudo", text: "A equipa chega à hora, com tudo o que é preciso. Você só tem de aproveitar o resultado." },
 ];
 
 export default function Process() {
@@ -72,7 +72,7 @@ export default function Process() {
             data-delay="80"
             className="mt-4 font-display text-3xl font-bold tracking-tight text-deep text-balance md:text-4xl"
           >
-            4 passos simples até ao seu espaço impecável
+            Da primeira mensagem ao &ldquo;que limpeza!&rdquo; em 4 passos
           </h2>
 
           <ol ref={list} className="relative mt-10 space-y-8">

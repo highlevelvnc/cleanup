@@ -4,16 +4,16 @@ import ServiceCard from "@/components/ServiceCard";
 const services = [
   {
     title: "Limpeza Residencial",
-    text: "Mantenha o seu lar impecável com limpeza regular ou profunda adaptada à sua rotina.",
+    text: "Casas e apartamentos sempre frescos, sem ter de pegar num pano.",
     tone: "from-sky-50 to-white",
-    icon: (
-      <path d="M3 12l9-9 9 9M5 10v10h14V10" strokeLinejoin="round" strokeLinecap="round" />
-    ),
+    bullets: ["Quartos, salas e WC", "Cozinha completa", "Aspirar e lavar pavimentos"],
+    icon: <path d="M3 12l9-9 9 9M5 10v10h14V10" strokeLinejoin="round" strokeLinecap="round" />,
   },
   {
     title: "Limpeza Comercial",
-    text: "Espaços que transmitem profissionalismo e higiene aos clientes e colaboradores.",
+    text: "Lojas, clínicas e ginásios com a higiene que os seus clientes notam.",
     tone: "from-mint/10 to-white",
+    bullets: ["Horário fora de expediente", "Equipa fixa atribuída", "Reposição de consumíveis"],
     icon: (
       <>
         <path d="M3 21h18M5 21V7l7-4 7 4v14" strokeLinejoin="round" strokeLinecap="round" />
@@ -23,8 +23,9 @@ const services = [
   },
   {
     title: "Escritórios",
-    text: "Ambiente de trabalho limpo e organizado para maximizar produtividade e bem-estar.",
+    text: "Postos de trabalho desinfectados todos os dias, antes de a equipa chegar.",
     tone: "from-sky-50 to-white",
+    bullets: ["Secretárias e teclados", "Salas de reunião e copa", "Lixos e WCs"],
     icon: (
       <>
         <rect x="3" y="4" width="18" height="16" rx="2" />
@@ -34,18 +35,16 @@ const services = [
   },
   {
     title: "Pós-Obra",
-    text: "Eliminamos pó e resíduos após obras ou remodelações, deixando tudo pronto a habitar.",
+    text: "Tira o pó, o gesso e os restos de tinta. Entregamos a chave pronta a habitar.",
     tone: "from-mint/10 to-white",
-    icon: (
-      <>
-        <path d="M14 7l3 3M5 19l3-9 8 8-9 3z" strokeLinejoin="round" strokeLinecap="round" />
-      </>
-    ),
+    bullets: ["Remoção de pó fino", "Vidros e azulejos", "Resíduos de tinta e cola"],
+    icon: <path d="M14 7l3 3M5 19l3-9 8 8-9 3z" strokeLinejoin="round" strokeLinecap="round" />,
   },
   {
     title: "Limpeza Profunda",
-    text: "Intervenção minuciosa em todos os cantos, ideal para mudanças ou limpezas de época.",
+    text: "Aquela limpeza a fundo que nunca tem tempo para fazer. Cantos, fugas, tudo.",
     tone: "from-sky-50 to-white",
+    bullets: ["Forno e exaustor", "Rodapés e calhas", "Por trás dos electrodomésticos"],
     icon: (
       <>
         <path d="M9 3l1 4 4 1-4 1-1 4-1-4-4-1 4-1z" />
@@ -55,8 +54,9 @@ const services = [
   },
   {
     title: "Manutenção Regular",
-    text: "Planos semanais ou quinzenais para manter a frescura constante do seu espaço.",
+    text: "Planos semanais ou quinzenais. Esquece a limpeza, nós tratamos.",
     tone: "from-mint/10 to-white",
+    bullets: ["Mesma equipa todas as vezes", "Calendário fixo", "Desconto fidelidade"],
     icon: (
       <>
         <rect x="3" y="5" width="18" height="16" rx="2" />
@@ -96,6 +96,7 @@ export default function Services() {
               text={s.text}
               tone={s.tone}
               icon={s.icon}
+              bullets={s.bullets}
               href={WHATSAPP_URL}
             />
           ))}

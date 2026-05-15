@@ -34,17 +34,17 @@ export default function About() {
             data-delay="80"
             className="mt-4 font-display text-3xl font-bold tracking-tight text-deep text-balance md:text-4xl"
           >
-            Excelência em cada detalhe, orgulhosamente local
+            Limpeza feita por gente daqui, para gente daqui
           </h2>
           <p data-reveal data-delay="140" className="mt-5 text-ink-soft">
-            A {COMPANY.name} nasceu em {COMPANY.region} com uma missão simples:
-            transformar a forma como as pessoas vivem o seu espaço através de uma
-            limpeza profissional, fiável e descomplicada.
+            A {COMPANY.name} é uma empresa local de {COMPANY.region}.
+            Conhecemos a sua zona, falamos a sua língua e tratamos a sua casa
+            como se fosse a nossa.
           </p>
           <p data-reveal data-delay="200" className="mt-3 text-ink-soft">
-            Servimos famílias, empresas e construtores em todo o Ribatejo com
-            equipa formada, produtos cuidadosamente seleccionados e total
-            transparência em cada orçamento.
+            Equipa formada, segurada e identificada. Produtos de qualidade
+            profissional. Orçamento fechado à partida — o preço que combinamos
+            é o preço que paga.
           </p>
 
           <dl className="mt-10 grid grid-cols-3 gap-4">

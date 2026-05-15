@@ -1,14 +1,14 @@
 const items = [
   {
-    title: "Atendimento rápido",
-    text: "Resposta em menos de 2 horas para pedidos urgentes.",
+    title: "Resposta em 2h",
+    text: "Falamos consigo no mesmo dia, mesmo aos sábados.",
     icon: (
       <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" strokeLinejoin="round" strokeLinecap="round" />
     ),
   },
   {
-    title: "Equipa profissional",
-    text: "Profissionais treinados e de total confiança.",
+    title: "Equipa de confiança",
+    text: "Profissionais identificados, formados e segurados.",
     icon: (
       <>
         <circle cx="12" cy="8" r="4" />
@@ -17,8 +17,8 @@ const items = [
     ),
   },
   {
-    title: "Limpeza cuidada",
-    text: "Atenção máxima a cada detalhe e material.",
+    title: "Garantia de qualidade",
+    text: "Não ficou perfeito? Voltamos sem custos. Simples assim.",
     icon: (
       <>
         <path d="M3 21h18M7 21V10l5-7 5 7v11" strokeLinejoin="round" strokeLinecap="round" />
@@ -26,8 +26,8 @@ const items = [
     ),
   },
   {
-    title: "Orçamento simples",
-    text: "Preços transparentes, sem custos ocultos.",
+    title: "Preço fechado",
+    text: "Orçamento claro à partida. Sem surpresas no fim.",
     icon: (
       <>
         <path d="M14 3v5h5M9 13h6M9 17h4" strokeLinecap="round" />

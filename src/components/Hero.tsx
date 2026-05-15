@@ -119,7 +119,11 @@ export default function Hero() {
             data-reveal
             className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-deep shadow-soft ring-1 ring-sky-100"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-mint" /> {COMPANY.region} · Ribatejo
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inset-0 animate-ping rounded-full bg-mint opacity-75" />
+              <span className="relative h-2 w-2 rounded-full bg-mint" />
+            </span>
+            Disponível esta semana · {COMPANY.region}
           </span>
 
           <h1
@@ -127,11 +131,11 @@ export default function Hero() {
             data-delay="80"
             className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-deep text-balance md:text-6xl"
           >
-            Limpeza profissional em{" "}
+            A sua casa{" "}
             <span className="bg-brand-gradient bg-clip-text text-transparent">
-              Vila Franca de Xira
+              impecável
             </span>{" "}
-            e arredores
+            sem mexer um dedo
           </h1>
 
           <p
@@ -139,8 +143,9 @@ export default function Hero() {
             data-delay="160"
             className="mt-6 max-w-xl text-base text-ink-soft md:text-lg"
           >
-            Limpeza residencial, comercial e pós-obra com rapidez, cuidado e qualidade superior.
-            Transformamos o seu espaço — orçamento gratuito em minutos.
+            Limpeza profissional em Vila Franca de Xira e arredores. Equipa de
+            confiança, produtos próprios e resultados garantidos. Orçamento
+            <strong className="font-semibold text-deep"> gratuito em 5 minutos</strong> pelo WhatsApp.
           </p>
 
           <div data-reveal data-delay="240" className="mt-9 flex flex-col gap-3 sm:flex-row">
