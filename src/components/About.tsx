@@ -16,8 +16,8 @@ export default function About() {
           <div className="absolute inset-0 -z-10 -translate-x-4 -translate-y-4 rounded-[2rem] bg-brand-gradient opacity-20 blur-2xl" />
           <div className="overflow-hidden rounded-[2rem] border-[6px] border-white shadow-lift">
             <Image
-              src="https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?auto=format&fit=crop&w=900&q=80"
-              alt="Profissional CleanUp em serviço"
+              src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80"
+              alt="Cesto com produtos e equipamento de limpeza profissional CleanUp"
               width={900}
               height={1100}
               className="aspect-[4/5] h-auto w-full object-cover"

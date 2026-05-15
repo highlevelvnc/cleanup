@@ -108,9 +108,14 @@ export default function Hero() {
       id="top"
       className="relative isolate overflow-hidden bg-gradient-to-b from-sky-50/60 via-white to-white pt-28 md:pt-32"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div ref={blob1} className="absolute -left-24 top-24 h-[420px] w-[420px] rounded-full bg-sky/25 blur-[110px] will-change-transform" />
         <div ref={blob2} className="absolute -right-24 top-1/3 h-[360px] w-[360px] rounded-full bg-mint/25 blur-[100px] will-change-transform" />
+        {/* Bolhas subtis em loop — CSS-only, max 4 elementos */}
+        <span className="bubble" style={{ left: "8%", bottom: "-10%", width: 14, height: 14, animationDelay: "0s", animationDuration: "16s" }} />
+        <span className="bubble" style={{ left: "32%", bottom: "-15%", width: 10, height: 10, animationDelay: "4s", animationDuration: "18s" }} />
+        <span className="bubble hidden md:block" style={{ left: "62%", bottom: "-8%", width: 18, height: 18, animationDelay: "2s", animationDuration: "20s" }} />
+        <span className="bubble hidden md:block" style={{ left: "85%", bottom: "-12%", width: 12, height: 12, animationDelay: "6s", animationDuration: "17s" }} />
       </div>
 
       <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-12 px-5 pb-20 md:grid-cols-2 md:gap-16 md:px-10 md:pb-28">
@@ -195,13 +200,21 @@ export default function Hero() {
         <div ref={imgWrap} data-reveal="right" className="relative will-change-transform">
           <div className="relative overflow-hidden rounded-3xl border-[6px] border-white shadow-lift">
             <Image
-              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80"
-              alt="Sala de estar moderna e impecavelmente limpa"
+              src="https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?auto=format&fit=crop&w=1200&q=80"
+              alt="Profissional CleanUp a polir uma superfície brilhante"
               width={1200}
               height={900}
               className="aspect-[4/3] h-auto w-full object-cover"
               priority
             />
+            {/* Sparkles overlay — CSS-only, pausa em reduced-motion */}
+            <div aria-hidden className="pointer-events-none absolute inset-0">
+              <span className="sparkle absolute left-[12%] top-[18%] h-3 w-3" style={{ animationDelay: "0.2s" }} />
+              <span className="sparkle absolute right-[18%] top-[28%] h-4 w-4" style={{ animationDelay: "1.1s" }} />
+              <span className="sparkle absolute left-[28%] bottom-[20%] h-2.5 w-2.5" style={{ animationDelay: "0.6s" }} />
+              <span className="sparkle absolute right-[12%] bottom-[30%] h-3 w-3" style={{ animationDelay: "1.6s" }} />
+              <span className="sparkle absolute left-[55%] top-[48%] h-3.5 w-3.5" style={{ animationDelay: "0.9s" }} />
+            </div>
           </div>
 
           <div ref={cardA} className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-5 shadow-lift md:block will-change-transform">

@@ -14,10 +14,12 @@ import WhatsAppFab from "@/components/WhatsAppFab";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
 import RevealProvider from "@/components/RevealProvider";
 import ScrollProgress from "@/components/ScrollProgress";
+import Loader from "@/components/Loader";
 
 export default function Home() {
   return (
     <>
+      <Loader />
       <ScrollProgress />
       <Header />
       <main>

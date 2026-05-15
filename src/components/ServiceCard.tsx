@@ -54,8 +54,9 @@ export default function ServiceCard({ index, title, text, tone, icon, bullets, h
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
       />
-      <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-white text-sky shadow-soft transition-colors group-hover:bg-brand-gradient group-hover:text-white">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-7 w-7">
+      <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-white text-sky shadow-soft transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-brand-gradient group-hover:text-white">
+        <span aria-hidden className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-brand-gradient opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-50" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-7 w-7 transition-transform duration-500 group-hover:rotate-[8deg] group-hover:scale-110">
           {icon}
         </svg>
       </span>
